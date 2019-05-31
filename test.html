@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>jQuery UI Selectable - Default functionality</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+ 
+  <style>
+  #feedback { font-size: 1.4em; }
+  #selectable .ui-selecting { background: #FECA40; }
+  #selectable .ui-selected { background: #F39814; color: white; }
+  #selectable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+  #selectable li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 18px; }
+  #form { display: none}
+  </style>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+</head>
+<body>
+ 
+<table id="selectable">
+    <tr>
+      <th>Company</th>
+      <th>Contact</th>
+      <th>Country</th>
+    </tr>
+    <tr>
+      <td class="teste">Alfreds Futterkiste</td>
+      <td class="teste">Maria Anders</td>
+      <td class="teste">Germany</td>
+    </tr>
+    <tr>
+      <td>Centro comercial Moctezuma</td>
+      <td>Francisco Chang</td>
+      <td>Mexico</td>
+    </tr>
+    <tr>
+      <td>Ernst Handel</td>
+      <td>Roland Mendel</td>
+      <td>Austria</td>
+    </tr>
+    <tr>
+      <td>Island Trading</td>
+      <td>Helen Bennett</td>
+      <td>UK</td>
+    </tr>
+    <tr>
+      <td>Laughing Bacchus Winecellars</td>
+      <td>Yoshi Tannamuri</td>
+      <td>Canada</td>
+    </tr>
+    <tr>
+      <td>Magazzini Alimentari Riuniti</td>
+      <td>Giovanni Rovelli</td>
+      <td>Italy</td>
+    </tr>
+  </table>
+
+  <button style="margin-top: 1rem" id="editar">Editar</button>
+
+
+  <div id="form" style="margin-top: 1rem">
+      <input type="text" id="valor">
+      <button id="salvar">Salvar</button>
+  </div>
+ 
+  <script>
+
+  var s ;
+
+  $(function(){
+    $('#selectable').selectable({
+        filter:'td',
+        selected: function(event, ui){
+            s = $(this).find('.ui-selected');
+            console.log(s);
+            var row = $(ui.selected).parents('tr').index();
+            var col = s[0].cellIndex + 1;
+            console.log('linha',row);
+            console.log('coluna',col);
+            console.log('valor',s[0].innerHTML);
+        }
+    });
+});
+
+$( "#editar" ).click(function() {
+  $('#form').css('display','block');
+});
+
+$( "#salvar" ).click(function() {
+  
+    for(var i = 0; i < s.length; i++) {
+        s[i].innerHTML = $('#valor').val();        
+    }
+    $('td').removeClass('ui-selectee ui-selected');
+    $('#valor').val(null);
+});
+
+$(document).on("click", function(event){
+    console.log(event);
+    if(event.target.id != 'valor' && event.target.id != 'editar' && event.target.id != 'salvar') {
+        $('td').removeClass('ui-selectee ui-selected');
+    }
+});
+
+
+
+
+
+</script>
+ 
+</body>
+</html>
